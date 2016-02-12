@@ -50,6 +50,7 @@ public class Aggregate extends Operator {
             agg = new IntegerAggregator(this.gfield, gType, afield, aop);
         else if (aggType == Type.STRING_TYPE)
             agg = new StringAggregator(this.gfield, gType, afield, aop);
+        else assert(false);
 
 
     }
@@ -109,9 +110,6 @@ public class Aggregate extends Operator {
             super.open();
             this.iter.open();
             
-            this.aggIter = this.agg.iterator();
-            this.aggIter.open();
-
             Tuple tup;
             while (this.iter.hasNext()) 
             {
@@ -119,6 +117,9 @@ public class Aggregate extends Operator {
                 System.out.println(tup.toString());
                 agg.mergeTupleIntoGroup(tup);
             }
+
+            this.aggIter = this.agg.iterator();
+            this.aggIter.open();
 
     }
 
