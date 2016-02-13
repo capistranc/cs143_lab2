@@ -19,8 +19,8 @@ public class HeapPage implements Page {
     final Tuple tuples[];
     final int numSlots;
 
-    boolean dirty;
-    TransactionId dirty_tid;
+    private boolean dirty;
+    private TransactionId dirty_tid;
 
     byte[] oldData;
     private final Byte oldDataLock=new Byte((byte)0);
@@ -245,11 +245,11 @@ public class HeapPage implements Page {
         RecordId rid = t.getRecordId();
 
         if (rid == null) 
-        {
             throw new DbException("Tuple is not on this page");
-        }
+        if (rid.getPageId() != this.pid)
+            throw new DbException("Tuple is not on this page");
+        
         int sid = rid.tupleno();
-
         if (!isSlotUsed(sid))
             throw new DbException("Tuple slot is already empty");
 
@@ -266,8 +266,8 @@ public class HeapPage implements Page {
      * @param t The tuple to add.
      */
     public void insertTuple(Tuple t) throws DbException {
-        if (t.getTupleDesc() != this.td)
-            throw new DbException("Mismatched tupleDesc");
+        //if (t.getTupleDesc() != this.td)
+        //    throw new DbException("Mismatched tupleDesc");
         if (getNumEmptySlots() == 0)
             throw new DbException("No empty Slots in page");
 
@@ -289,15 +289,15 @@ public class HeapPage implements Page {
     public void markDirty(boolean dirty, TransactionId tid) {
         this.dirty = dirty;
         this.dirty_tid = tid;
-
     }
 
     /**
      * Returns the tid of the transaction that last dirtied this page, or null if the page is not dirty
      */
     public TransactionId isDirty() {
-
-        return this.dirty_tid; 
+        if (this.dirty)
+            return this.dirty_tid;
+        return null;
     }
 
     /**
