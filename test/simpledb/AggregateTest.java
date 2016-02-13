@@ -50,7 +50,7 @@ public class AggregateTest extends SimpleDbTestBase {
                     "a", 4,
                     "a", 6,
                     "b", 2,
-                    "b", 4,
+                    "b", 4, 
                     "b", 6,
                     "c", 7 });
 

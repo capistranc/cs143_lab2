@@ -33,10 +33,10 @@ public class IntegerAggregator implements Aggregator {
      *            the aggregation operator
      */
 
-    public IntegerAggregator(int gbfield, Type gbfieldtype, int afield, Op what) {
+    public IntegerAggregator(int gbfield, Type gbfieldtype, int afield, Op what) 
+    {
 
-        System.out.println("Integer aggregate initialied");
-
+        //System.out.println("Integer aggregate initialized");
 
         this.gbfield = gbfield;
         this.gbfieldtype = gbfieldtype;

@@ -118,7 +118,7 @@ public class Aggregate extends Operator {
                 agg.mergeTupleIntoGroup(tup);
             }
 
-            this.aggIter = this.agg.iterator();
+            this.aggIter = this.agg.iterator(); //Need to fill up the tuple array list before opening the iterator
             this.aggIter.open();
 
     }

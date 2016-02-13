@@ -28,7 +28,7 @@ public class StringAggregator implements Aggregator {
 
     public StringAggregator(int gbfield, Type gbfieldtype, int afield, Op what) {
 
-        System.out.println("String aggregate initialied");
+        //System.out.println("String aggregate initialized");
         this.gbfield = gbfield;
         this.gbfieldtype = gbfieldtype;
         this.afield = afield;
