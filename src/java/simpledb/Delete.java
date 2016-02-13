@@ -9,6 +9,8 @@ import java.io.IOException;
 public class Delete extends Operator {
 
     private static final long serialVersionUID = 1L;
+    TransactionId tid;
+    DbIterator iter;
 
     /**
      * Constructor specifying the transaction that this delete belongs to as
@@ -20,24 +22,29 @@ public class Delete extends Operator {
      *            The child operator from which to read tuples for deletion
      */
     public Delete(TransactionId t, DbIterator child) {
-        // some code goes here
+        this.tid = t;
+        this.iter = child;
     }
 
     public TupleDesc getTupleDesc() {
-        // some code goes here
-        return null;
+        String [] fieldName = {"Deleted Tuples"};
+        Type [] fieldType = {Type.INT_TYPE};
+
+        return new TupleDesc(fieldType, fieldName);
     }
 
     public void open() throws DbException, TransactionAbortedException {
-        // some code goes here
+        this.iter.open();
+        super.open();
     }
 
     public void close() {
-        // some code goes here
+        this.iter.close();
+        super.close();
     }
 
     public void rewind() throws DbException, TransactionAbortedException {
-        // some code goes here
+        this.iter.rewind();
     }
 
     /**
@@ -56,13 +63,14 @@ public class Delete extends Operator {
 
     @Override
     public DbIterator[] getChildren() {
-        // some code goes here
-        return null;
+        DbIterator child[] = new DbIterator[1];
+        child[0] = this.iter;
+        return child;
     }
 
     @Override
     public void setChildren(DbIterator[] children) {
-        // some code goes here
+        this.iter = children[0];
     }
 
 }
