@@ -63,7 +63,7 @@ public class StringAggregator implements Aggregator {
 
         if (this.gbfield == Aggregator.NO_GROUPING) 
         {
-            groupName = new String[] {"aggrregateVal"};
+            groupName = new String[] {"aggregateVal"};
             groupType = new Type[] {Type.INT_TYPE};
         } else
         {

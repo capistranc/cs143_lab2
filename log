@@ -1,0 +1,27 @@
+Implementation of Predicate, Filter, JoinPredicate were fairly straight forward
+
+Join - In order to implement fetchNext(), we took the route of the double nested for loop. This checked every tuple in the left table against every tuple in the right table. This has a time complexity of O(n^2).
+
+Because our iterators lacked the previous command, we had to store the first tuple in a private variable tup1. 
+
+This addition also meant that we had to reset the value of tup1 back to null whenever rewind was called. Otherwise fetchNext() worked improperly, starting from the last tuple of the first table.
+
+A helper function joinTuples was also used in fetchNext() to merge the tuples together.
+
+StringAggregator - A hashmap HashMap<K,F> was implemented for the count aggregate functions. K ~ was the unique values of the field, F was the amount of fields with that value K.
+
+IntegerAggregator - Similarly, 2 HashMaps were used for the integer aggregator. One of the Hashmaps kept track of unique groups, as well as their aggregate value. The other hashmap simply kept count of the amount of tuples in each group. This hashmap was only necessary in order to compute the averages for the AVG operation.
+
+Aggregate - This checked of the aggregate type was either an IntegerAggregate or a StringAggregate and called upon said aggregator to perform most of te work here.
+
+Note: The order of which the aggregate iterators are opened is important. The aggregate Iterator cannot be opened until the arrayList of tuples connected to the Iterator is fully populated.
+
+HeapPage - Modified the header by using the helper functions isSlotUsed() and markSlotUsed in order to find a free slot, insert the tuple and mark it the slot used.
+
+HeapFile
+	insertTuple - We first looked for an exiting heapPage in the file with free space, if no such page existed we instead created a new one. 
+	deleteTuple - We first checked to see if the tuple existed in the page before deleting it. We also marked the pages dirty whenever a tuple was added/removed.
+	writePage - We used RandomAccessFile with rw permissions in order to write the data to disk.
+
+BufferPool - insertTuple and deleteTuple only needed to call the insertTuple/deleteTuple functions already implemented by the table, which would call the previous forms of insertTuple/deleteTuple we just implemented.
+
